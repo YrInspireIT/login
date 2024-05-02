@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Log In to Continue | Your Inspire IT</title>
   <link rel="stylesheet" href="styles.css">
-  
+
+<style>
+    
 <style>
   
     body {
@@ -189,54 +191,52 @@ img{
 
 
 </style>
+</style>
 </head>
 <body>
-   
     
-    <section class="alt">
-    <div class="alert">
-    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-    You need to log in first to proceed...
-  </div>
-  
-  <section>
-      
-      
-      
-      <div class="logo">
-        <img src="https://i.postimg.cc/nVvDBPP5/Yi-logo.png">
-        <h1>Your Inspire IT</h1>
-        <p>Make your Inspire</p>
-    </div>
+<section class="alt">
+<div class="alert">
+<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+You need to log in first to proceed...
+</div>
+
+<section>
     
-      <br><br><br>
-      
-      
-  <div class="login-container">
-    <form action="https://cdntestmeta.000webhostapp.com/host/login.php" class="login-form" method="post">
-      <h2>Log In</h2>
-      <?php if(isset($error)) { ?>
-    <p class="error"><?php echo $error; ?></p>
+<div class="logo">
+<img src="https://i.postimg.cc/nVvDBPP5/Yi-logo.png">
+<h1>Your Inspire IT</h1>
+<p>Make your Inspire</p>
+</div>
+
+<br><br><br>
+
+
+<div class="login-container">
+<form action="https://cdntestmeta.000webhostapp.com/host/login.php" class="login-form" method="post">
+<h2>Log In</h2>
+<?php if(isset($error)) { ?>
+<p class="error"><?php echo $error; ?></p>
 <?php } ?>
 
-      <input type="text" name="user_id" placeholder="User ID" required>
-      <input type="password" name="password" id="password" placeholder="Password" required>
-      <input type="checkbox" id="showPassword"> Show Password<br><br>
-      <button type="submit">Log In</button>
-      <p>Not any account, <a href="#">Sign Up ! </a></p>
-    </form>
-  </div>
-  <script>
-    const passwordField = document.getElementById('password');
-    const showPasswordCheckbox = document.getElementById('showPassword');
+<input type="text" name="user_id" placeholder="User ID" required>
+<input type="password" name="password" id="password" placeholder="Password" required>
+<input type="checkbox" id="showPassword"> Show Password<br><br>
+<button type="submit">Log In</button>
+<p>Not any account, <a href="#">Sign Up ! </a></p>
+</form>
+</div>
+<script>
+const passwordField = document.getElementById('password');
+const showPasswordCheckbox = document.getElementById('showPassword');
 
-    showPasswordCheckbox.addEventListener('change', function() {
-      if (this.checked) {
-        passwordField.type = 'text';
-      } else {
-        passwordField.type = 'password';
-      }
-    });
-  </script>
+showPasswordCheckbox.addEventListener('change', function() {
+  if (this.checked) {
+    passwordField.type = 'text';
+  } else {
+    passwordField.type = 'password';
+  }
+});
+</script>
 </body>
 </html>
