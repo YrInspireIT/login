@@ -1,243 +1,425 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Log In to Continue | Your Inspire IT</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&family=Jost:ital,wght@0,100..900;1,100..900&family=Lexend+Deca:wght@100..900&family=Playwrite+IT+Moderna:wght@100..400&family=Raleway:ital,wght@0,100..900;1,100..900&family=Voces&display=swap" rel="stylesheet">
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Sign Up - Your Inspire IT</title> <!-- Changed Title -->
+    <!-- Link to Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Link to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Global Styles & Variables (Same as before) --- */
+        :root {
+            --primary-bg: #eff3ff;
+            --secondary-bg: #ffffff;
+            --tertiary-bg: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #475569;
+            --text-lighter: #64748b;
+            --accent-color: #4f46e5;
+            --accent-hover: #4338ca;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-dark);
+            line-height: 1.7;
+            font-size: 16px;
+            overflow-x: hidden;
+            display: flex; /* Added for footer stickiness */
+            flex-direction: column; /* Added for footer stickiness */
+            min-height: 100vh; /* Added for footer stickiness */
+        }
+        main { flex: 1; } /* Added for footer stickiness */
+
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+        h1, h2, h3 { font-weight: 600; color: var(--text-dark); margin-bottom: 0.8em; }
+        h2 { font-size: 1.8rem; } /* Slightly smaller H2 for form */
+        p { margin-bottom: 1em; color: var(--text-light); }
+        a { text-decoration: none; color: var(--accent-color); transition: color 0.3s ease; }
+        a:hover { color: var(--accent-hover); }
+        section { padding: 60px 0; } /* Reduced padding for this page */
+
+        .btn { display: inline-block; background-color: var(--accent-color); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 500; font-size: 1rem; transition: background-color 0.3s ease, transform 0.2s ease; border: none; cursor: pointer; text-align: center; width: 100%; /* Make buttons full width in forms */ }
+        .btn:hover { background-color: var(--accent-hover); transform: translateY(-3px); }
+
+        /* --- Header/Navigation (Same as before) --- */
+        .main-header { background-color: var(--secondary-bg); padding: 15px 0; box-shadow: 0 2px 10px var(--shadow-color); position: sticky; top: 0; z-index: 1000; }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; position: relative; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent-color); }
+        .main-nav { display: flex; }
+        .main-nav a { margin-left: 25px; font-weight: 500; color: var(--text-dark); position: relative; padding-bottom: 5px; }
+        .main-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--accent-color); transition: width 0.3s ease; }
+        .main-nav a:hover::after { width: 100%; }
+        .main-nav a:hover { color: var(--accent-color); }
+        .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: var(--text-dark); }
+
+        /* --- Authentication Section Styles --- */
+        #auth-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 0; /* Adjusted padding */
+            min-height: calc(100vh - 150px); /* Ensure it takes height minus header/footer approx */
+        }
+
+        .auth-container {
+            background-color: var(--secondary-bg);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            max-width: 450px;
+            width: 100%;
+            animation: fadeInScaleUp 0.8s ease-out forwards;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 12px 15px;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -1px; /* Overlap border */
+        }
+
+        .tab-button.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .auth-form {
+            display: none; /* Hidden by default */
+        }
+
+        .auth-form.active {
+            display: block; /* Shown when active */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            color: var(--text-dark);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+
+        .form-options .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+
+         .form-options input[type="checkbox"] {
+            margin-right: 8px;
+            accent-color: var(--accent-color); /* Style checkbox color */
+         }
+         .form-options label {
+            margin-bottom: 0;
+            font-weight: 400;
+            color: var(--text-light);
+         }
+
+        .form-options a {
+            color: var(--text-light);
+        }
+         .form-options a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+         }
+
+         .form-group.terms {
+             font-size: 0.9rem;
+             display: flex;
+             align-items: start; /* Align checkbox top */
+         }
+         .form-group.terms input[type="checkbox"] {
+             margin-right: 10px;
+             margin-top: 4px; /* Align checkbox nicely */
+             flex-shrink: 0;
+         }
+         .form-group.terms label {
+             font-weight: 400;
+             color: var(--text-light);
+             line-height: 1.5;
+         }
+         .form-group.terms a {
+             font-weight: 500;
+             text-decoration: underline;
+         }
 
 
-    
-<style>
-  
-    body {
-  margin: 0;
-  padding: 0;
-  font-family: "Jost", sans-serif; 
-}
-
-.login-container {
-  background-color: black;
-  background-image: url('নিয়ন_ছবির_লিংক');
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-  margin-left: 20px;
-  margin-right: 20px;
-  justify-content: center;
-  align-items: center;
-}
-
-.login-form {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 40px;
-  border-radius: 10px;
-  text-align: center;
-  animation: slideIn 1s ease-in-out; /* Animation */
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(-50px); /* Initial position */
-    opacity: 0; /* Initial opacity */
-  }
-  to {
-    transform: translateY(0); /* Final position */
-    opacity: 1; /* Final opacity */
-  }
-}
-
-h2 {
-  margin-bottom: 20px;
-}
-
-input[type="text"],
-input[type="password"],
-button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 5px;
-  box-sizing: border-box;
-  animation: fadeIn 1s ease-in-out; /* Animation */
-}
+        /* --- Footer (Same as before) --- */
+        .main-footer { background-color: #1e293b; color: #cbd5e1; padding: 50px 0 20px 0; margin-top: auto; /* Pushes footer down */ }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; margin-bottom: 40px; }
+        .footer-col { flex: 1; min-width: 200px; margin-bottom: 20px; }
+        .footer-col h4 { color: #fff; margin-bottom: 20px; font-size: 1.1rem; font-weight: 600; position: relative; padding-bottom: 10px; }
+        .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: 0; width: 40px; height: 2px; background-color: var(--accent-color); }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #cbd5e1; transition: color 0.3s ease, padding-left 0.3s ease; }
+        .footer-col ul li a:hover { color: #fff; padding-left: 5px; }
+        .footer-socials a { display: inline-block; color: #fff; background-color: rgba(255, 255, 255, 0.15); width: 40px; height: 40px; line-height: 40px; border-radius: 50%; text-align: center; margin-right: 10px; font-size: 1rem; transition: background-color 0.3s ease, transform 0.3s ease; }
+        .footer-socials a:hover { background-color: var(--accent-color); transform: scale(1.1); }
+        .footer-bottom { border-top: 1px solid #334155; padding-top: 25px; text-align: center; font-size: 0.9rem; color: #94a3b8; }
+        .footer-transparency-note { font-size: 0.85rem; margin-top: 10px; opacity: 0.8; }
 
 
+        /* --- Animations --- */
+        @keyframes fadeInScaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-100%); } to { opacity: 1; transform: translateY(0); } }
 
 
-@keyframes fadeIn {
-  from {
-    opacity: 0; /* Initial opacity */
-  }
-  to {
-    opacity: 1; /* Final opacity */
-  }
-}
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            /* Responsive Nav */
+            .menu-toggle { display: block; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }
+            .main-nav {
+                display: none; flex-direction: column; position: absolute;
+                top: 100%; left: 0; width: 100%; background-color: var(--secondary-bg);
+                padding: 15px 0; box-shadow: 0 4px 10px var(--shadow-color); text-align: center;
+             }
+             .main-nav.active { display: flex; }
+             .main-nav a { margin: 10px 20px; padding: 8px 0; width: auto; }
+             .main-nav a::after { display: none; }
+             .main-nav a:hover { background-color: var(--primary-bg); }
+        }
 
-button {
-  background-color: #4CAF50;
-  color: white;
-  cursor: pointer;
-}
+        @media (max-width: 768px) {
+            .footer-content { text-align: center; }
+            .footer-col { flex-basis: 100%; margin-bottom: 30px; align-items: center; }
+            .footer-col h4::after { left: 50%; transform: translateX(-50%); }
+            .footer-col ul li a:hover { padding-left: 0; }
+             #auth-section { padding: 60px 0; } /* Reduce padding */
+        }
 
-button:hover {
-  background-color: #45a049;
-}
+        @media (max-width: 576px) {
+             .logo { font-size: 1.3rem; }
+             .auth-container { padding: 30px 25px; }
+             h2 { font-size: 1.6rem; }
+             .tab-button { font-size: 1rem; padding: 10px 10px; }
+             .form-options { flex-direction: column; align-items: flex-start; gap: 10px; }
+             .form-group input[type="text"],
+             .form-group input[type="email"],
+             .form-group input[type="password"] { padding: 10px 12px; font-size: 0.95rem;}
+             .btn { padding: 10px 20px; font-size: 0.95rem; }
+        }
 
-
-input[type="text"],
-input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 5px;
-  box-sizing: border-box;
-  animation: fadeIn 1s ease-in-out;
-  border: 2px solid transparent; /* ডিফল্ট বর্ডার নিয়ন গ্লো */
-  
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus {
-  outline: none;
-  border-color: #00bcd4;
-  box-shadow: 0 0 10px #00bcd4; /* ফোকাসে নিয়ন ইফেক্ট */
-}
-
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-
-.alert {
-  padding: 20px;
-  background-color: #f44336;
-  color: white;
-  margin-bottom: 15px;
-  border-radius: 10px;
-}
-
-.closebtn {
-  margin-left: 15px;
-  color: white;
-  font-weight: bold;
-  float: right;
-  font-size: 22px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.closebtn:hover {
-  color: black;
-}
-
-.alt{
-    background: black;
-    padding: 10px;
-    padding-top: 20px;
-}
-
-img{
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    height: 200px;
-    width: 200px;
-}
-
-.logo h1{
-    color: #11ff00;
-    text-shadow: 0 0 20px rgba(0, 255, 0, 0.5), 0 0 40px rgba(0, 255, 0, 0.5);
-    font-size: 3em;
-    text-align: center;
-    font-family: "Raleway", sans-serif; 
- 
-  
-}
-
-.logo p{
-        color: #00c0ff;
-    text-shadow: 0 0 8px rgba(0, 191, 255, 0.5), 0 0 12px rgba(0, 191, 255, 0.5);
-    font-size: 1.5rem;
-    text-align: center;
-    font-family: "Playwrite IT Moderna", cursive; 
-}
-
-
-@media screen and (min-width: 768px) {
-  .login-container {
-    margin-left: 20%;
-    margin-right: 20%;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .login-container {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-}
-
-
-
-</style>
-  
+    </style>
 </head>
 <body>
-    
-<section class="alt">
-<div class="alert">
-<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-You need to log in first to proceed...
-</div>
 
-<section>
-    
-<div class="logo">
-<img src="https://i.postimg.cc/nVvDBPP5/Yi-logo.png">
-<h1>Your Inspire IT</h1>
-<p>Make your Inspire</p>
-</div>
+    <!-- Header (Same as index page) -->
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">Your Inspire IT</a> <!-- Link logo to homepage -->
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="main-nav" id="main-nav">
+                 <!-- You might want different nav links here, or keep them for consistency -->
+                <a href="index.html#features">Home</a>
+                <a href="index.html#how-it-works">About Us</a>
+                <a href="index.html#testimonials">Contact Us</a>
+                <a href="#">Report</a>
+                <a href="index.html#faq">FAQ</a>
+                <a href="auth.html" class="active-nav">Login/Sign Up</a> <!-- Example: Highlight current page -->
+            </nav>
+        </div>
+    </header>
 
-<br><br><br>
+    <main>
+        <!-- Authentication Section -->
+        <section id="auth-section">
+            <div class="auth-container"><div class="auth-tabs">
+                <button class="tab-button active" data-tab="login">Login</button>
+                <button class="tab-button" data-tab="signup">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active" action="#" method="post"> <!-- Add your backend action URL -->
+                <h2>Welcome Back!</h2>
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <div class="form-options">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember-me" name="remember">
+                        <label for="remember-me">Remember Me</label>
+                    </div>
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form id="signup-form" class="auth-form" action="#" method="post"> <!-- Add your backend action URL -->
+                 <h2>Create Your Account</h2>
+                 <p style="margin-top: -10px; margin-bottom: 20px; font-size: 0.95rem; color: var(--text-light);">Join Your Inspire IT for free and start earning today!</p>
+               <div style="color: #ff0034;"> দুঃখীত!<br> Your Inspire IT তে শুধু মাত্র Reffral Team নতুন একাউন্ট খুলে দিতে পারবে। একাউন্ট খুলতে নিচের বাটনে ক্লিক করুন। <br>&nbsp;<br></div>
+                 <div class="form-group terms">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the Your Inspire IT <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</label>
+                </div>
+                <a href="#"><button class="btn">Sign Up Now!</button></a>
+            </form>
+
+        </div> <!-- End of auth-container -->
+    </section>
+</main>
+
+<!-- Footer (Same as index page) -->
+<footer class="main-footer">
+    <div class="container">
+        <div class="footer-content">
+            <!-- Footer columns remain similar -->
+             <div class="footer-col"><h4>About Us</h4><ul><li><a href="#">Our Mission</a></li><li><a href="#">How it Works</a></li><li><a href="#">Blog</a></li>
+                  </ul>
+               </div>
+               <div class="footer-col">
+                  <h4>Support</h4>
+                  <ul>
+                     <li><a href="#">Help Center / FAQ</a></li>
+                     <li><a href="#">Contact Us</a></li>
+                      <li><a href="#">Report</a></li>
+                     <li><a href="#">Payment Info</a></li>
+                    
+                  </ul>
+               </div>
+               <div class="footer-col">
+                  <h4>Legal & Transparency</h4>
+                  <ul>
+                     <li><a href="#">Terms of Service</a></li>
+                     <li><a href="#">Privacy Policy</a></li>
+                     <li><a href="#">Cookie Policy</a></li>
+                     <li><a href="#">Earning Disclaimer</a></li>
+                  </ul>
+               </div>
+               <div class="footer-col" style="display: none;">
+                  <h4>Connect With Us</h4>
+                  <div class="footer-socials">
+                     <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                     <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                     <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                     <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                  </div>
+               </div>
+            </div> <!-- End of footer-content -->
+            <div class="footer-bottom">
+               © 2022-2025 Your Inspire IT. All Rights Reserved.
+            
+               </div>
+            </div>
+         </div> <!-- End of container -->
+      </footer>
+
+      <script>
+         // --- Mobile Menu Toggle ---
+         const menuToggle = document.getElementById('menu-toggle');
+         const mainNav = document.getElementById('main-nav');
+         if (menuToggle && mainNav) {
+             menuToggle.addEventListener('click', () => {
+                 mainNav.classList.toggle('active');
+                 const icon = menuToggle.querySelector('i');
+                 icon.classList.toggle('fa-bars');
+                 icon.classList.toggle('fa-times');
+             });
+             // Optional: Close menu when a link is clicked (if needed on auth page)
+             /*
+             mainNav.querySelectorAll('a').forEach(link => {
+                 link.addEventListener('click', () => {
+                     if (mainNav.classList.contains('active')) {
+                          mainNav.classList.remove('active');
+                          menuToggle.querySelector('i').classList.remove('fa-times');
+                          menuToggle.querySelector('i').classList.add('fa-bars');
+                     }
+                 });
+              });
+              */
+         }
 
 
-<div class="login-container">
-<form action="https://cdntestmeta.000webhostapp.com/host/login.php" class="login-form" method="post">
-<h2>Log In</h2>
+         // --- Login/Sign Up Tab Switcher ---
+         const tabButtons = document.querySelectorAll('.tab-button');
+         const authForms = document.querySelectorAll('.auth-form');
 
+         tabButtons.forEach(button => {
+             button.addEventListener('click', () => {
+                 const targetTab = button.getAttribute('data-tab'); // 'login' or 'signup'
 
-<input type="text" name="user_id" placeholder="User ID" required>
-<input type="password" name="password" placeholder="Password" required>
-<input type="checkbox" id="showPassword"> Show Password<br><br>
-<button type="submit">Log In</button>
-<p>Not any account, <a href="#">Sign Up ! </a></p>
-</form>
-</div>
-<script>
-const passwordField = document.getElementById('password');
-const showPasswordCheckbox = document.getElementById('showPassword');
+                 // Update Button Active State
+                 tabButtons.forEach(btn => btn.classList.remove('active'));
+                 button.classList.add('active');
 
-showPasswordCheckbox.addEventListener('change', function() {
-  if (this.checked) {
-    passwordField.type = 'text';
-  } else {
-    passwordField.type = 'password';
-  }
-});
-</script>
-</body>
-</html>
+                 // Update Form Active State
+                 authForms.forEach(form => {
+                     if (form.id === `${targetTab}-form`) {
+                         form.classList.add('active');
+                     } else {
+                         form.classList.remove('active');
+                     }
+                 });
+             });
+         });
+
+      </script>
+
+   </body>
+  </html>
