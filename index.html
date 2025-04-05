@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login or Sign Up - Your Inspire IT</title> <!-- Changed Title -->
+    <title>Login or Sign Up - Your Inspire IT</title>
     <!-- Link to Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Link to Google Fonts -->
@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- Global Styles & Variables (Same as before) --- */
+        /* --- Global Styles & Variables (আপনার আগের স্টাইল) --- */
         :root {
             --primary-bg: #eff3ff;
             --secondary-bg: #ffffff;
@@ -26,6 +26,9 @@
             --shadow-color: rgba(0, 0, 0, 0.08);
             --success-color: #10b981;
             --warning-color: #f59e0b;
+            --error-color: #dc3545; /* Added for error popup */
+            --error-bg: #f8d7da; /* Added for error popup */
+            --error-text: #721c24; /* Added for error popup */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,24 +40,24 @@
             line-height: 1.7;
             font-size: 16px;
             overflow-x: hidden;
-            display: flex; /* Added for footer stickiness */
-            flex-direction: column; /* Added for footer stickiness */
-            min-height: 100vh; /* Added for footer stickiness */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        main { flex: 1; } /* Added for footer stickiness */
+        main { flex: 1; }
 
         .container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
         h1, h2, h3 { font-weight: 600; color: var(--text-dark); margin-bottom: 0.8em; }
-        h2 { font-size: 1.8rem; } /* Slightly smaller H2 for form */
+        h2 { font-size: 1.8rem; }
         p { margin-bottom: 1em; color: var(--text-light); }
         a { text-decoration: none; color: var(--accent-color); transition: color 0.3s ease; }
         a:hover { color: var(--accent-hover); }
-        section { padding: 60px 0; } /* Reduced padding for this page */
+        section { padding: 60px 0; }
 
-        .btn { display: inline-block; background-color: var(--accent-color); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 500; font-size: 1rem; transition: background-color 0.3s ease, transform 0.2s ease; border: none; cursor: pointer; text-align: center; width: 100%; /* Make buttons full width in forms */ }
+        .btn { display: inline-block; background-color: var(--accent-color); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 500; font-size: 1rem; transition: background-color 0.3s ease, transform 0.2s ease; border: none; cursor: pointer; text-align: center; width: 100%; }
         .btn:hover { background-color: var(--accent-hover); transform: translateY(-3px); }
 
-        /* --- Header/Navigation (Same as before) --- */
+        /* --- Header/Navigation (আপনার আগের স্টাইল) --- */
         .main-header { background-color: var(--secondary-bg); padding: 15px 0; box-shadow: 0 2px 10px var(--shadow-color); position: sticky; top: 0; z-index: 1000; }
         .main-header .container { display: flex; justify-content: space-between; align-items: center; position: relative; }
         .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent-color); }
@@ -65,143 +68,33 @@
         .main-nav a:hover { color: var(--accent-color); }
         .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: var(--text-dark); }
 
-        /* --- Authentication Section Styles --- */
-        #auth-section {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 80px 0; /* Adjusted padding */
-            min-height: calc(100vh - 150px); /* Ensure it takes height minus header/footer approx */
-        }
-
-        .auth-container {
-            background-color: var(--secondary-bg);
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px var(--shadow-color);
-            max-width: 450px;
-            width: 100%;
-            animation: fadeInScaleUp 0.8s ease-out forwards;
-        }
-
-        .auth-tabs {
-            display: flex;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .tab-button {
-            flex: 1;
-            padding: 12px 15px;
-            background: none;
-            border: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-light);
-            cursor: pointer;
-            transition: color 0.3s ease, border-bottom 0.3s ease;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -1px; /* Overlap border */
-        }
-
-        .tab-button.active {
-            color: var(--accent-color);
-            border-bottom-color: var(--accent-color);
-        }
-
-        .auth-form {
-            display: none; /* Hidden by default */
-        }
-
-        .auth-form.active {
-            display: block; /* Shown when active */
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--text-dark);
-            font-size: 0.95rem;
-        }
-
+        /* --- Authentication Section Styles (আপনার আগের স্টাইল) --- */
+        #auth-section { display: flex; align-items: center; justify-content: center; padding: 80px 0; min-height: calc(100vh - 150px); }
+        .auth-container { background-color: var(--secondary-bg); padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px var(--shadow-color); max-width: 450px; width: 100%; animation: fadeInScaleUp 0.8s ease-out forwards; }
+        .auth-tabs { display: flex; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); }
+        .tab-button { flex: 1; padding: 12px 15px; background: none; border: none; font-size: 1.1rem; font-weight: 600; color: var(--text-light); cursor: pointer; transition: color 0.3s ease, border-bottom 0.3s ease; border-bottom: 3px solid transparent; margin-bottom: -1px; }
+        .tab-button.active { color: var(--accent-color); border-bottom-color: var(--accent-color); }
+        .auth-form { display: none; }
+        .auth-form.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 500; margin-bottom: 8px; color: var(--text-dark); font-size: 0.95rem; }
         .form-group input[type="text"],
         .form-group input[type="email"],
-        .form-group input[type="password"] {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 1rem;
-            color: var(--text-dark);
-            transition: border-color 0.3s ease;
-        }
+        .form-group input[type="password"] { width: 100%; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; color: var(--text-dark); transition: border-color 0.3s ease; }
+        .form-group input:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2); }
+        .form-options { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; font-size: 0.9rem; }
+        .form-options .checkbox-group { display: flex; align-items: center; }
+        .form-options input[type="checkbox"] { margin-right: 8px; accent-color: var(--accent-color); }
+        .form-options label { margin-bottom: 0; font-weight: 400; color: var(--text-light); }
+        .form-options a { color: var(--text-light); }
+        .form-options a:hover { color: var(--accent-hover); text-decoration: underline; }
+        .form-group.terms { font-size: 0.9rem; display: flex; align-items: start; }
+        .form-group.terms input[type="checkbox"] { margin-right: 10px; margin-top: 4px; flex-shrink: 0; }
+        .form-group.terms label { font-weight: 400; color: var(--text-light); line-height: 1.5; }
+        .form-group.terms a { font-weight: 500; text-decoration: underline; }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
-        }
-
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            font-size: 0.9rem;
-        }
-
-        .form-options .checkbox-group {
-            display: flex;
-            align-items: center;
-        }
-
-         .form-options input[type="checkbox"] {
-            margin-right: 8px;
-            accent-color: var(--accent-color); /* Style checkbox color */
-         }
-         .form-options label {
-            margin-bottom: 0;
-            font-weight: 400;
-            color: var(--text-light);
-         }
-
-        .form-options a {
-            color: var(--text-light);
-        }
-         .form-options a:hover {
-            color: var(--accent-hover);
-            text-decoration: underline;
-         }
-
-         .form-group.terms {
-             font-size: 0.9rem;
-             display: flex;
-             align-items: start; /* Align checkbox top */
-         }
-         .form-group.terms input[type="checkbox"] {
-             margin-right: 10px;
-             margin-top: 4px; /* Align checkbox nicely */
-             flex-shrink: 0;
-         }
-         .form-group.terms label {
-             font-weight: 400;
-             color: var(--text-light);
-             line-height: 1.5;
-         }
-         .form-group.terms a {
-             font-weight: 500;
-             text-decoration: underline;
-         }
-
-
-        /* --- Footer (Same as before) --- */
-        .main-footer { background-color: #1e293b; color: #cbd5e1; padding: 50px 0 20px 0; margin-top: auto; /* Pushes footer down */ }
+        /* --- Footer (আপনার আগের স্টাইল) --- */
+        .main-footer { background-color: #1e293b; color: #cbd5e1; padding: 50px 0 20px 0; margin-top: auto; }
         .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; margin-bottom: 40px; }
         .footer-col { flex: 1; min-width: 200px; margin-bottom: 20px; }
         .footer-col h4 { color: #fff; margin-bottom: 20px; font-size: 1.1rem; font-weight: 600; position: relative; padding-bottom: 10px; }
@@ -215,67 +108,97 @@
         .footer-bottom { border-top: 1px solid #334155; padding-top: 25px; text-align: center; font-size: 0.9rem; color: #94a3b8; }
         .footer-transparency-note { font-size: 0.85rem; margin-top: 10px; opacity: 0.8; }
 
-
-        /* --- Animations --- */
+        /* --- Animations (আপনার আগের স্টাইল) --- */
         @keyframes fadeInScaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-100%); } to { opacity: 1; transform: translateY(0); } }
 
-
-        /* --- Responsive Design --- */
+        /* --- Responsive Design (আপনার আগের স্টাইল) --- */
         @media (max-width: 992px) {
-            /* Responsive Nav */
             .menu-toggle { display: block; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }
-            .main-nav {
-                display: none; flex-direction: column; position: absolute;
-                top: 100%; left: 0; width: 100%; background-color: var(--secondary-bg);
-                padding: 15px 0; box-shadow: 0 4px 10px var(--shadow-color); text-align: center;
-             }
-             .main-nav.active { display: flex; }
-             .main-nav a { margin: 10px 20px; padding: 8px 0; width: auto; }
-             .main-nav a::after { display: none; }
-             .main-nav a:hover { background-color: var(--primary-bg); }
+            .main-nav { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--secondary-bg); padding: 15px 0; box-shadow: 0 4px 10px var(--shadow-color); text-align: center; }
+            .main-nav.active { display: flex; }
+            .main-nav a { margin: 10px 20px; padding: 8px 0; width: auto; }
+            .main-nav a::after { display: none; }
+            .main-nav a:hover { background-color: var(--primary-bg); }
         }
-
         @media (max-width: 768px) {
             .footer-content { text-align: center; }
             .footer-col { flex-basis: 100%; margin-bottom: 30px; align-items: center; }
             .footer-col h4::after { left: 50%; transform: translateX(-50%); }
             .footer-col ul li a:hover { padding-left: 0; }
-             #auth-section { padding: 60px 0; } /* Reduce padding */
+            #auth-section { padding: 60px 0; }
+        }
+        @media (max-width: 576px) {
+            .logo { font-size: 1.3rem; }
+            .auth-container { padding: 30px 25px; }
+            h2 { font-size: 1.6rem; }
+            .tab-button { font-size: 1rem; padding: 10px 10px; }
+            .form-options { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .form-group input[type="text"],
+            .form-group input[type="email"],
+            .form-group input[type="password"] { padding: 10px 12px; font-size: 0.95rem;}
+            .btn { padding: 10px 20px; font-size: 0.95rem; }
         }
 
-        @media (max-width: 576px) {
-             .logo { font-size: 1.3rem; }
-             .auth-container { padding: 30px 25px; }
-             h2 { font-size: 1.6rem; }
-             .tab-button { font-size: 1rem; padding: 10px 10px; }
-             .form-options { flex-direction: column; align-items: flex-start; gap: 10px; }
-             .form-group input[type="text"],
-             .form-group input[type="email"],
-             .form-group input[type="password"] { padding: 10px 12px; font-size: 0.95rem;}
-             .btn { padding: 10px 20px; font-size: 0.95rem; }
+        /* --- Wrong Credentials Popup Style --- */
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 280px; /* Minimum width */
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid var(--error-color);
+            border-radius: 8px;
+            padding: 25px 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1001; /* Ensure it's above other content */
+            text-align: center;
+            animation: fadeInScaleUp 0.3s ease-out; /* Use existing animation */
+        }
+        .popup p {
+            margin-bottom: 15px;
+            font-size: 1.1rem; /* Slightly larger text */
+            font-weight: 500;
+            color: var(--error-text); /* Ensure text color overrides general p */
+        }
+        .popup button {
+            background-color: var(--error-color);
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            width: auto; /* Don't make it full width */
+            transition: background-color 0.3s ease;
+        }
+        .popup button:hover {
+            background-color: #c82333; /* Darker red on hover */
+            transform: none; /* Override button hover transform if needed */
         }
 
     </style>
 </head>
 <body>
 
-    <!-- Header (Same as index page) -->
+    <!-- Header (আপনার আগের হেডার) -->
     <header class="main-header">
         <div class="container">
-            <a href="index.html" class="logo">Your Inspire IT</a> <!-- Link logo to homepage -->
+            <a href="index.html" class="logo">Your Inspire IT</a>
             <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>
             <nav class="main-nav" id="main-nav">
-                 <!-- You might want different nav links here, or keep them for consistency -->
                 <a href="index.html#features">Home</a>
                 <a href="index.html#how-it-works">About Us</a>
                 <a href="index.html#testimonials">Contact Us</a>
                 <a href="#">Report</a>
                 <a href="index.html#faq">FAQ</a>
-                <a href="auth.html" class="active-nav">Login/Sign Up</a> <!-- Example: Highlight current page -->
+                <a href="auth.html" class="active-nav">Login/Sign Up</a>
             </nav>
         </div>
     </header>
@@ -283,143 +206,241 @@
     <main>
         <!-- Authentication Section -->
         <section id="auth-section">
-            <div class="auth-container"><div class="auth-tabs">
-                <button class="tab-button active" data-tab="login">Login</button>
-                <button class="tab-button" data-tab="signup">Sign Up</button>
-            </div>
+            <div class="auth-container">
+                <div class="auth-tabs">
+                    <button class="tab-button active" data-tab="login">Login</button>
+                    <button class="tab-button" data-tab="signup">Sign Up</button>
+                </div>
 
-            <!-- Login Form -->
-            <form id="login-form" class="auth-form active" action="#" method="post"> <!-- Add your backend action URL -->
-                <h2>Welcome Back!</h2>
-                <div class="form-group">
-                    <label for="login-email">Email Address</label>
-                    <input type="email" id="login-email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" name="password" required>
-                </div>
-                <div class="form-options">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="remember-me" name="remember">
-                        <label for="remember-me">Remember Me</label>
+                <!-- Login Form -->
+                 <!-- Removed action="#" and method="post" as JS handles submission -->
+                <form id="login-form" class="auth-form active">
+                    <h2>Welcome Back!</h2>
+                    <div class="form-group">
+                        <!-- Changed label and type, use 'text' for generic ID -->
+                        <label for="login-userid">User ID</label>
+                        <input type="text" id="login-userid" name="userid" required>
                     </div>
-                    <a href="#">Forgot Password?</a>
-                </div>
-                <button type="submit" class="btn">Login</button>
-            </form>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" name="password" required>
+                    </div>
+                    <div class="form-options">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="remember-me" name="remember">
+                            <label for="remember-me">Remember Me</label>
+                        </div>
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                    <!-- Changed type="submit" to type="button" if handled purely by JS, or keep submit and prevent default -->
+                    <button type="submit" class="btn">Login</button>
+                </form>
 
-            <!-- Sign Up Form -->
-            <form id="signup-form" class="auth-form" action="#" method="post"> <!-- Add your backend action URL -->
-                 <h2>Create Your Account</h2>
-                 <p style="margin-top: -10px; margin-bottom: 20px; font-size: 0.95rem; color: var(--text-light);">Join Your Inspire IT for free and start earning today!</p>
-               <div style="color: #ff0034;"> দুঃখীত!<br> Your Inspire IT তে শুধু মাত্র Reffral Team নতুন একাউন্ট খুলে দিতে পারবে। একাউন্ট খুলতে নিচের বাটনে ক্লিক করুন। <br>&nbsp;<br></div>
-                 <div class="form-group terms">
-                    <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">I agree to the Your Inspire IT <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</label>
-                </div>
-                <a href="#"><button class="btn">Sign Up Now!</button></a>
-            </form>
+                <!-- Sign Up Form (আপনার আগের ফর্ম) -->
+                <form id="signup-form" class="auth-form" action="#" method="post">
+                    <h2>Create Your Account</h2>
+                    <p style="margin-top: -10px; margin-bottom: 20px; font-size: 0.95rem; color: var(--text-light);">Join Your Inspire IT for free and start earning today!</p>
+                    <div style="color: #ff0034;"> দুঃখীত!<br> Your Inspire IT তে শুধু মাত্র Reffral Team নতুন একাউন্ট খুলে দিতে পারবে। একাউন্ট খুলতে নিচের বাটনে ক্লিক করুন। <br> <br></div>
+                    <div class="form-group terms">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the Your Inspire IT <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</label>
+                    </div>
+                    <!-- This button inside <a> tag will navigate, not submit form -->
+                    <a href="#"><button type="button" class="btn">Sign Up Now!</button></a>
+                </form>
 
-        </div> <!-- End of auth-container -->
-    </section>
-</main>
+            </div> <!-- End of auth-container -->
+        </section>
 
-<!-- Footer (Same as index page) -->
-<footer class="main-footer">
-    <div class="container">
-        <div class="footer-content">
-            <!-- Footer columns remain similar -->
-             <div class="footer-col"><h4>About Us</h4><ul><li><a href="#">Our Mission</a></li><li><a href="#">How it Works</a></li><li><a href="#">Blog</a></li>
-                  </ul>
-               </div>
-               <div class="footer-col">
-                  <h4>Support</h4>
-                  <ul>
-                     <li><a href="#">Help Center / FAQ</a></li>
-                     <li><a href="#">Contact Us</a></li>
-                      <li><a href="#">Report</a></li>
-                     <li><a href="#">Payment Info</a></li>
-                    
-                  </ul>
-               </div>
-               <div class="footer-col">
-                  <h4>Legal & Transparency</h4>
-                  <ul>
-                     <li><a href="#">Terms of Service</a></li>
-                     <li><a href="#">Privacy Policy</a></li>
-                     <li><a href="#">Cookie Policy</a></li>
-                     <li><a href="#">Earning Disclaimer</a></li>
-                  </ul>
-               </div>
-               <div class="footer-col" style="display: none;">
-                  <h4>Connect With Us</h4>
-                  <div class="footer-socials">
-                     <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                     <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                     <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                     <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                  </div>
-               </div>
-            </div> <!-- End of footer-content -->
+         <!-- Wrong Credentials Popup HTML -->
+        <div id="wrongCredentialsPopup" class="popup">
+            <p>Wrong Credentials!</p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+
+    </main>
+
+    <!-- Footer (আপনার আগের ফুটার) -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                 <div class="footer-col"><h4>About Us</h4><ul><li><a href="#">Our Mission</a></li><li><a href="#">How it Works</a></li><li><a href="#">Blog</a></li></ul></div>
+                 <div class="footer-col"><h4>Support</h4><ul><li><a href="#">Help Center / FAQ</a></li><li><a href="#">Contact Us</a></li><li><a href="#">Report</a></li><li><a href="#">Payment Info</a></li></ul></div>
+                 <div class="footer-col"><h4>Legal & Transparency</h4><ul><li><a href="#">Terms of Service</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Cookie Policy</a></li><li><a href="#">Earning Disclaimer</a></li></ul></div>
+                 <div class="footer-col" style="display: none;"><h4>Connect With Us</h4><div class="footer-socials"><a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a><a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a></div></div>
+            </div>
             <div class="footer-bottom">
                © 2022-2025 Your Inspire IT. All Rights Reserved.
-            
-               </div>
             </div>
-         </div> <!-- End of container -->
-      </footer>
+        </div>
+    </footer>
 
-      <script>
-         // --- Mobile Menu Toggle ---
-         const menuToggle = document.getElementById('menu-toggle');
-         const mainNav = document.getElementById('main-nav');
-         if (menuToggle && mainNav) {
-             menuToggle.addEventListener('click', () => {
-                 mainNav.classList.toggle('active');
-                 const icon = menuToggle.querySelector('i');
-                 icon.classList.toggle('fa-bars');
-                 icon.classList.toggle('fa-times');
-             });
-             // Optional: Close menu when a link is clicked (if needed on auth page)
-             /*
-             mainNav.querySelectorAll('a').forEach(link => {
-                 link.addEventListener('click', () => {
-                     if (mainNav.classList.contains('active')) {
-                          mainNav.classList.remove('active');
-                          menuToggle.querySelector('i').classList.remove('fa-times');
-                          menuToggle.querySelector('i').classList.add('fa-bars');
-                     }
-                 });
-              });
-              */
-         }
+    <script>
+        // --- Mobile Menu Toggle (আপনার আগের কোড) ---
+        const menuToggle = document.getElementById('menu-toggle');
+        const mainNav = document.getElementById('main-nav');
+        if (menuToggle && mainNav) {
+            menuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            });
+        }
+
+        // --- Login/Sign Up Tab Switcher (আপনার আগের কোড) ---
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const authForms = document.querySelectorAll('.auth-form');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.getAttribute('data-tab'); // 'login' or 'signup'
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                authForms.forEach(form => {
+                    if (form.id === `${targetTab}-form`) {
+                        form.classList.add('active');
+                    } else {
+                        form.classList.remove('active');
+                    }
+                });
+            });
+        });
 
 
-         // --- Login/Sign Up Tab Switcher ---
-         const tabButtons = document.querySelectorAll('.tab-button');
-         const authForms = document.querySelectorAll('.auth-form');
+        // --- LOGIN LOGIC ---
 
-         tabButtons.forEach(button => {
-             button.addEventListener('click', () => {
-                 const targetTab = button.getAttribute('data-tab'); // 'login' or 'signup'
+        // User Credentials (Hardcoded - Not secure for production!)
+        const validUsers = {
+            "admin": "1234",
+            "tester": "1234",
+            "user1": "pass1",
+            "user2": "pass2",
+            "user3": "pass3",
+            "user4": "pass4",
+            "user5": "pass5",
+            "user6": "pass6"
+            // Add more users here if needed
+        };
 
-                 // Update Button Active State
-                 tabButtons.forEach(btn => btn.classList.remove('active'));
-                 button.classList.add('active');
+        // Cookie Functions (Can be moved to a separate auth.js file)
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            console.log("Cookie set:", name, value);
+        }
 
-                 // Update Form Active State
-                 authForms.forEach(form => {
-                     if (form.id === `${targetTab}-form`) {
-                         form.classList.add('active');
-                     } else {
-                         form.classList.remove('active');
-                     }
-                 });
-             });
-         });
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
 
-      </script>
+        // Login Form Submission Handler
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent actual form submission
 
-   </body>
-  </html>
+            // Get user input (Using the updated ID 'login-userid')
+            const userIdInput = document.getElementById('login-userid');
+            const passwordInput = document.getElementById('login-password');
+            const userId = userIdInput.value.trim(); // Trim whitespace
+            const password = passwordInput.value; // Password might have spaces
+
+            // Check credentials
+            if (validUsers[userId] && validUsers[userId] === password) {
+                // --- Successful Login ---
+                console.log('Login successful for:', userId);
+
+                // Set a cookie (e.g., for 1 day)
+                setCookie('loggedInUser', userId, 1); // Change '1' to desired days
+
+                // Redirect to google.com
+                window.location.href = 'https://pay-yourinspireit.github.io/active-account/v2';
+
+            } else {
+                // --- Failed Login ---
+                console.log('Login failed');
+                showPopup(); // Show the wrong credentials popup
+                // Optional: Clear password field after failed attempt
+                // passwordInput.value = '';
+            }
+        });
+
+        // --- Popup Logic ---
+        const popup = document.getElementById('wrongCredentialsPopup');
+
+        function showPopup() {
+            if (popup) {
+                popup.style.display = 'block';
+            }
+        }
+
+        function closePopup() {
+            if (popup) {
+                popup.style.display = 'none';
+            }
+        }
+
+        // Optional: Close popup if clicked outside of it
+        /*
+        window.addEventListener('click', function(event) {
+            if (popup && event.target == popup) { // Check if click is on the background overlay (if you add one) or the popup itself
+                 // For simplicity, clicking anywhere might close it, adjust if needed
+                 // closePopup();
+            }
+        });
+        */
+        
+        
+        
+    // --- প্রয়োজনীয়: কুকি পড়ার ফাংশন ---
+    // এই ফাংশনটি অবশ্যই এই স্ক্রিপ্টের আগে লোড হতে হবে অথবা এর মধ্যেই থাকতে হবে।
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    // --- রিডাইরেকশন লজিক ---
+    (function() {
+        const loginCookieName = 'loggedInUser'; // লগইনের সময় যে নামে কুকি সেট করেছিলেন
+        const redirectTargetPage = 'https://YrInspireIT.github.io/sorry';   // লগইন করা থাকলে এই পেজে রিডাইরেক্ট হবে
+
+        const isLoggedIn = getCookie(loginCookieName);
+        const currentPage = window.location.pathname; // বর্তমান পেজের পাথ (e.g., /profile.html)
+
+        // চেক করুন: কুকি আছে কিনা এবং বর্তমান পেজটিই টার্গেট পেজ কিনা (অসীম রিডাইরেক্ট এড়াতে)
+        if (isLoggedIn && isLoggedIn !== '' && currentPage.indexOf(redirectTargetPage) === -1) {
+            console.log(`User '${isLoggedIn}' is logged in. Redirecting from ${currentPage} to ${redirectTargetPage}`);
+            window.location.href = redirectTargetPage;
+        } else {
+            // যদি লগইন করা না থাকে অথবা ইউজার আগে থেকেই sl.html পেজে থাকে, তাহলে কিছু করার দরকার নেই।
+            if (!isLoggedIn || isLoggedIn === '') {
+                 console.log(`User not logged in on ${currentPage}. No redirect.`);
+            } else {
+                 console.log(`User already on ${redirectTargetPage}. No redirect needed.`);
+            }
+        }
+    })(); // ফাংশনটি অবিলম্বে কল করা হচ্ছে (Immediately Invoked Function Expression - IIFE)
+
+
+
+    </script>
+
+</body>
+</html>
